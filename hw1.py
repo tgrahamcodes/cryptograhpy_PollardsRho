@@ -7,6 +7,7 @@ import time as t
 time = t.perf_counter()
 
 def do_update(alpha, beta, p, x, a, b):
+	n = int((p - 1) / 2)
 	if (x % 3 == 1): 
 		x = (x * x) % p
 		a =  (a*2) % n
@@ -61,14 +62,16 @@ def do_check(z):
 		print ("\nCheck failed.")
 
 def main(alpha, beta, p):
-	a = 63317
-	b = 43313
+
+	n = int((p - 1) / 2)
+	a = 777357
+	b = 552357
 	i = 1
 	x = pow(alpha, a, p) * pow(beta, b, p) % p
 
 	X2 = pow(alpha, a, p) * pow(beta, b, p) % p
-	A2 = 63317
-	B2 = 43313
+	A2 = 777357
+	B2 = 552357
 	
 	while (i < n):
 		x, a, b = do_update(alpha, beta, p, x, a, b)
@@ -94,9 +97,17 @@ if __name__ == "__main__":
 	# alpha = 3
 	# beta = 1228035139812	
 	# main(alpha, beta, p)
-
+	# print("Problem One Solved!\n")
+	
 	p = 2305843009213699919
-	n = int((p - 1) / 2)
 	alpha = 3
 	beta = 259893785866906004	
 	main(alpha, beta, p)
+	print("Problem Two Solved")
+
+	# p = 2417851639229258349415043
+	# n = int((p - 1) / 2)
+	# alpha = 3
+	# beta = 1007149824486452497234736	
+	# main(alpha, beta, p)
+
