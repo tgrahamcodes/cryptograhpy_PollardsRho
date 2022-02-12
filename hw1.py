@@ -1,30 +1,30 @@
+# Tom Graham
+# Homework 1
+# CS-673 Advanced Cryptograhpy
+
 import time as t
 
-p = 2199023255867
-n = p - 1
-alpha = 3
-beta = 1228035139812
 time = t.perf_counter()
 
-def do_update(x, a, b):
-	if (x % 3 == 0): 
+def do_update(alpha, beta, p, x, a, b):
+	if (x % 3 == 1): 
 		x = (x * x) % p
 		a =  (a*2) % n
 		b =  (b*2) % n
 		return x, a, b
 
-	if (x % 3 == 1):
+	if (x % 3 == 0):
 		x = (x * alpha) % p
 		a = (a+1) % n
 		return x, a, b
 
 	if (x % 3 == 2):
-		x = (x * beta)  % p
+		x = (x * beta) % p
 		b = (b+1) % n
 		return x, a, b
 
-def do_print(i, x, a, b, X, A2, B2):
-	print ("-----------------------------------------------")
+def do_print(alpha, beta, p, i, x, a, b, A2, B2, z):
+	print ("\n-----------------------------------------------")
 	print ("Pollard's Rho")
 	print ("-----------------------------------------------")
 	print ("Input:")
@@ -44,47 +44,59 @@ def do_print(i, x, a, b, X, A2, B2):
 	print ("\n-----------------------------------------------")
 	print ("System Specifications:")
 	print ("-----------------------------------------------")
-	print ("Operating System:\t macOS Monterey")
+	print ("\nOperating System:\t macOS Monterey")
 	print ("CPU:\t\t\t Apple M1")
 	print ("RAM:\t\t\t 8GB")
 	print ("IDE:\t\t\t Visual Studio Code")
 	print ("----------------------------------------------\n")
-	check(x, p)
+	do_check(z)
+	print ("----------------------------------------------\n")
 
-def check(x, p):
-	test3 = pow(alpha, x, p) 
-	if (test3 == beta):
-		print ("They are equal")
+def do_check(z):
+	if (beta == pow(alpha, z, p)):
+		print ("Beta:\t\t\t", beta)
+		print ("Pow:\t\t\t", pow(alpha, z, p))
+		print ("\nCheck succeeded!")
 	else:
-		print (test3)
-		print (beta)
+		print ("\nCheck failed.")
 
-def main():
-	x = 1
-	a = 0
-	b = 0
+def main(alpha, beta, p):
+	a = 63317
+	b = 43313
 	i = 1
+	x = pow(alpha, a, p) * pow(beta, b, p) % p
 
-	X2 = x
-	A2 = a
-	B2 = b
+	X2 = pow(alpha, a, p) * pow(beta, b, p) % p
+	A2 = 63317
+	B2 = 43313
 	
 	while (i < n):
-		x, a, b = do_update(x, a, b)
-		X2, A2, B2 = do_update(X2, A2, B2)
-		X2, A2, B2 = do_update(X2, A2, B2)
+		x, a, b = do_update(alpha, beta, p, x, a, b)
+		X2, A2, B2 = do_update(alpha, beta, p, X2, A2, B2)
+		X2, A2, B2 = do_update(alpha, beta, p, X2, A2, B2)
+
 		if (x == X2):
-			z = b - B2
-			if z == 0:
+			bb = (b - B2) % n
+			aa = A2 - a
+		
+			if bb == 0:
 				return -1
-			#x = (pow(z, -1) * (A2 - a)) % p
-			print ("z: ", z)
-			print ("beta: ", beta)
-			print()
-			do_print(i, x, a, b, X2, A2, B2)
+			z = (pow(bb, -1, n) * (A2 - a)) % n
+			do_print(alpha, beta, p, i, x, a, b, A2, B2, z)
 			break
 		else:
 			i = i + 1
 
 if __name__ == "__main__":
-	main()
+
+	# p = 2199023255867
+	# n = int((p - 1) / 2)
+	# alpha = 3
+	# beta = 1228035139812	
+	# main(alpha, beta, p)
+
+	p = 2305843009213699919
+	n = int((p - 1) / 2)
+	alpha = 3
+	beta = 259893785866906004	
+	main(alpha, beta, p)
