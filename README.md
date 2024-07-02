@@ -1,6 +1,9 @@
 ## Project #1
 ## Advanced Cryptography
 
+Pollard's rho algorithm is an algorithm for integer factorization. It was invented by John Pollard in 1975. It uses only a small amount of space, and its expected running time is proportional to the square root of the smallest prime factor of the composite number being factorized. 
+
+
 1. Using a software package with big integer arithmetic support (e.g. Maple, Sage,
 Python/NumPy, C/GMP) develop a program to compute a discrete logarithm in Z∗
 p using either Pollard’s Rho method OR the Index-Calculus Technique. You may
